@@ -1,0 +1,16 @@
+{
+  "short_name": "BrassLine",
+  "name": "BrassLine - Every line, right on time",
+  "icons": [
+    {
+      "src": "/train-gauge.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#121316",
+  "theme_color": "#C5A059",
+  "display": "standalone",
+  "orientation": "portrait"
+}

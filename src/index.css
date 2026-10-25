@@ -1,0 +1,623 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Victorian Railway Deep Coal & Oxblood */
+  --bg-coal: #120E10;
+  --bg-coal-dark: #0A0709;
+  --bg-oxblood: #1F0C10;
+  --bg-oxblood-surface: #2B1117;
+  --bg-oxblood-hover: #38161E;
+  --bg-oxblood-border: #4E1D27;
+
+  /* Aged Brass */
+  --brass-accent: #C5A059;
+  --brass-light: #F3E5AB;
+  --brass-dark: #8A6E2D;
+  --brass-border: #9E7D3B;
+  --brass-burnished: #B5942F;
+  --brass-glow: rgba(197, 160, 89, 0.25);
+
+  /* Cream Parchment & Dark Ink (WCAG AA Compliant: contrast > 11:1) */
+  --parchment-bg: #F4EEDB;
+  --parchment-card: #F8F4E8;
+  --parchment-border: #D8CCA8;
+  --parchment-hover: #EDE4CC;
+  --ink-primary: #1C140E;
+  --ink-secondary: #48392F;
+  --ink-muted: #6B5749;
+  --ink-faint: #927D6E;
+
+  /* Verdigris Green for On-Time / Live Status */
+  --verdigris: #2E8872;
+  --verdigris-light: #44BBA4;
+  --verdigris-dark: #185244;
+  --verdigris-bg: #E1F2ED;
+  --verdigris-border: #3A9B83;
+}
+
+@layer base {
+  body {
+    background-color: #120E10;
+    color: #EDE4D0;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'IM Fell English', 'Playfair Display', Georgia, serif;
+  }
+
+  /* Victorian Dark Brass Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #140A0D;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #4A2028;
+    border-radius: 3px;
+    border: 1px solid #8A6E2D;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #682E3A;
+  }
+}
+
+/* ========================================================
+   VICTORIAN RAILWAY SURFACES & TEXTURES
+   ======================================================== */
+
+/* Faint Paper / Iron-Grain Texture */
+.iron-grain-bg {
+  background-color: var(--bg-coal);
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse at 20% 0%, rgba(43, 17, 23, 0.5) 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 100%, rgba(31, 12, 16, 0.45) 0%, transparent 70%);
+  background-size: 24px 24px, 100% 100%, 100% 100%;
+}
+
+.parchment-grain-bg {
+  background-color: var(--parchment-card);
+  background-image: radial-gradient(rgba(138, 110, 45, 0.04) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Victorian Brass-Rimmed Panel with Double-Line Border */
+.victorian-panel {
+  position: relative;
+  background-color: var(--bg-oxblood);
+  border: 3px double var(--brass-border);
+  box-shadow: 
+    inset 0 0 16px rgba(0, 0, 0, 0.65),
+    0 4px 18px rgba(0, 0, 0, 0.55),
+    0 0 1px 1px rgba(197, 160, 89, 0.2);
+  border-radius: 10px;
+}
+
+/* Cream Parchment Card with Dark Ink Text (WCAG AA Compliant) */
+.parchment-card {
+  position: relative;
+  background-color: var(--parchment-card);
+  color: var(--ink-primary);
+  border: 2px solid var(--brass-border);
+  box-shadow: 
+    inset 0 0 14px rgba(181, 148, 47, 0.12),
+    0 2px 10px rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.parchment-card:hover {
+  background-color: var(--parchment-hover);
+  border-color: var(--brass-accent);
+}
+
+.parchment-card-active {
+  background-color: #FAF6ED;
+  border-color: var(--brass-accent);
+  box-shadow: 
+    inset 0 0 18px rgba(197, 160, 89, 0.22),
+    0 0 0 2px var(--brass-accent),
+    0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+/* Verdigris Green Status Badge (WCAG AA Compliant: > 7:1 contrast) */
+.verdigris-badge {
+  background-color: var(--verdigris-bg);
+  color: var(--verdigris-dark);
+  border: 1px solid var(--verdigris-border);
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(46, 136, 114, 0.15);
+}
+
+.verdigris-badge-dark {
+  background-color: rgba(24, 82, 68, 0.35);
+  color: var(--verdigris-light);
+  border: 1px solid rgba(58, 155, 131, 0.6);
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* Double-Line Brass Border */
+.border-double-brass {
+  border: 3px double var(--brass-border);
+}
+
+/* ========================================================
+   SPLIT-FLAP TIME DISPLAY & BOARD FLIP ANIMATIONS
+   ======================================================== */
+
+@keyframes split-flap-card-flip {
+  0% {
+    transform: perspective(400px) rotateX(0deg);
+  }
+  40% {
+    transform: perspective(400px) rotateX(-90deg);
+    filter: brightness(0.65);
+  }
+  60% {
+    transform: perspective(400px) rotateX(90deg);
+    filter: brightness(0.85);
+  }
+  100% {
+    transform: perspective(400px) rotateX(0deg);
+    filter: brightness(1);
+  }
+}
+
+.animate-split-flap {
+  animation: split-flap-card-flip 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95) both;
+  transform-style: preserve-3d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-split-flap {
+    animation: none !important;
+  }
+}
+
+/* Authentic Solari Split-Flap Time Display Plate */
+.split-flap-plate {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #18090C 0%, #120709 48%, #0A0405 52%, #14080A 100%);
+  border: 1.5px solid #8A6E2D;
+  border-radius: 5px;
+  box-shadow: 
+    inset 0 1px 2px rgba(243, 229, 171, 0.2),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.8),
+    0 2px 5px rgba(0, 0, 0, 0.6);
+  padding: 0.25rem 0.65rem;
+  overflow: hidden;
+}
+
+/* Horizontal center slit of physical split flap */
+.split-flap-seam {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 1px 0 rgba(243, 229, 171, 0.15);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Left and right mechanical flap hinge notches */
+.split-flap-hinge-left {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 2.5px;
+  height: 4px;
+  background: #C5A059;
+  transform: translateY(-50%);
+  border-radius: 0 1px 1px 0;
+  z-index: 6;
+}
+
+.split-flap-hinge-right {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 2.5px;
+  height: 4px;
+  background: #C5A059;
+  transform: translateY(-50%);
+  border-radius: 1px 0 0 1px;
+  z-index: 6;
+}
+
+/* ========================================================
+   VICTORIAN WAX-SEAL BADGE & TICKET STUB PERFORATIONS
+   ======================================================== */
+
+.wax-seal-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%, #B82536 0%, #881622 55%, #500A11 100%);
+  border: 1.5px solid #540B12;
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.45),
+    inset 0 1px 2px rgba(255, 255, 255, 0.35),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.65);
+  color: #F8F4E8;
+  font-family: 'IM Fell English', serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.wax-seal-badge::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 9999px;
+  border: 1px dashed rgba(243, 229, 171, 0.35);
+  pointer-events: none;
+}
+
+/* Ticket Stub Notches on Perforation Line */
+.ticket-notch-top {
+  position: absolute;
+  top: -8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background-color: var(--bg-coal);
+  border: 1.5px solid var(--brass-border);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+.ticket-notch-bottom {
+  position: absolute;
+  bottom: -8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background-color: var(--bg-coal);
+  border: 1.5px solid var(--brass-border);
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+.border-double-dark {
+  border: 3px double #4E1D27;
+}
+
+/* Brass Rivet Styles */
+.brass-rivet {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #F3E5AB, #C5A059 60%, #5E461A 100%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.8);
+  border: 0.5px solid rgba(138, 110, 45, 0.6);
+  pointer-events: none;
+}
+
+/* ========================================================
+   LOCOMOTIVE STEAM PUFF ANIMATIONS
+   ======================================================== */
+
+@keyframes steam-puff-drift-1 {
+  0% {
+    opacity: 0.85;
+    transform: translate(0, 0) scale(0.5);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-3px, -8px) scale(1.0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-8px, -18px) scale(1.6);
+  }
+}
+
+@keyframes steam-puff-drift-2 {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+    transform: translate(0, 0) scale(0.4);
+  }
+  60% {
+    opacity: 0.45;
+    transform: translate(-2px, -10px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-6px, -20px) scale(1.7);
+  }
+}
+
+@keyframes steam-puff-drift-3 {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.8;
+    transform: translate(1px, -2px) scale(0.5);
+  }
+  75% {
+    opacity: 0.35;
+    transform: translate(-4px, -12px) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-9px, -22px) scale(1.8);
+  }
+}
+
+.steam-puff-1 {
+  animation: steam-puff-drift-1 2.2s ease-out infinite;
+  transform-origin: center;
+}
+
+.steam-puff-2 {
+  animation: steam-puff-drift-2 2.2s ease-out infinite 0.7s;
+  transform-origin: center;
+}
+
+.steam-puff-3 {
+  animation: steam-puff-drift-3 2.2s ease-out infinite 1.4s;
+  transform-origin: center;
+}
+
+/* Respect prefers-reduced-motion: disable steam animations */
+@media (prefers-reduced-motion: reduce) {
+  .steam-puff-1,
+  .steam-puff-2,
+  .steam-puff-3 {
+    animation: none !important;
+    opacity: 0 !important;
+    display: none !important;
+  }
+}
+
+/* Steampunk Gear Animations */
+@keyframes gear-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-gear {
+  animation: gear-spin 14s linear infinite;
+}
+
+/* Hide scrollbar for clean horizontal tag pills */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ========================================================
+   LEAFLET PARCHMENT RAILWAY CHART & WATERMARK-FREE TILES
+   ======================================================== */
+
+/* Parchment Railway Chart: Antique Sepia Filter on Map Tiles */
+.leaflet-tile-pane {
+  filter: sepia(0.85) contrast(1.15) brightness(0.94) saturate(0.7);
+}
+
+.leaflet-container {
+  background-color: #EDE4CF !important;
+  font-family: 'IM Fell English', serif, sans-serif;
+  outline: none;
+}
+
+/* Parchment Railway Chart Tooltips */
+.leaflet-tooltip.steam-tooltip {
+  background: #F8F4E8 !important;
+  border: 2px solid #8A6E2D !important;
+  color: #1C140E !important;
+  font-family: 'IM Fell English', serif, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 6px 10px;
+  border-radius: 6px;
+  box-shadow: 
+    0 4px 14px rgba(0, 0, 0, 0.45),
+    inset 0 0 8px rgba(197, 160, 89, 0.15) !important;
+}
+
+.leaflet-tooltip.steam-tooltip::before {
+  border-top-color: #8A6E2D !important;
+}
+
+/* Permanent Major Station Labels on Parchment Plates */
+.leaflet-tooltip.steam-label-permanent {
+  background: #F4EEDB !important;
+  border: 2px solid #8A6E2D !important;
+  color: #1C140E !important;
+  font-family: 'IM Fell English', serif, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 0 6px rgba(197, 160, 89, 0.2) !important;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.leaflet-tooltip.steam-label-permanent::before {
+  border-top-color: #8A6E2D !important;
+}
+
+/* Specific offsets and styling for Penn Station and Grand Central Madison */
+.leaflet-tooltip.steam-label-penn {
+  border-color: #8A6E2D !important;
+}
+
+.leaflet-tooltip.steam-label-gcm {
+  border-color: #8A6E2D !important;
+}
+
+/* Smooth motion for small train icons traveling along tracks */
+.custom-train-marker {
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Subtle pulse ring for selected station markers (origin & destination only) */
+@keyframes subtle-marker-pulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.25;
+    transform: scale(1.35);
+  }
+}
+
+.animate-station-pulse {
+  animation: subtle-marker-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  transform-origin: center;
+}
+
+/* Leaflet Attribution control in Parchment Railway Cartouche */
+.leaflet-control-attribution {
+  background: rgba(244, 238, 219, 0.94) !important;
+  color: #48392F !important;
+  font-size: 9px !important;
+  font-family: 'IM Fell English', serif, sans-serif !important;
+  padding: 2px 8px !important;
+  border-top-left-radius: 5px;
+  border-top: 1px solid #8A6E2D !important;
+  border-left: 1px solid #8A6E2D !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25) !important;
+}
+.leaflet-control-attribution a {
+  color: #691621 !important;
+  font-weight: bold;
+  text-decoration: underline !important;
+}
+.leaflet-control-attribution a:hover {
+  color: #992331 !important;
+}
+
+/* Zoom control buttons in antique parchment/brass aesthetic */
+.leaflet-control-zoom a {
+  background-color: #F4EEDB !important;
+  color: #1C140E !important;
+  border-color: #8A6E2D !important;
+  font-weight: bold !important;
+}
+.leaflet-control-zoom a:hover {
+  background-color: #F8F4E8 !important;
+  color: #691621 !important;
+}
+
+/* ========================================================
+   VICTORIAN TRAIN CROSSING & BOILER STOKING ANIMATIONS
+   ======================================================== */
+@keyframes train-crossing-travel {
+  0% {
+    transform: translate(-150%, -50%);
+  }
+  100% {
+    transform: translate(350%, -50%);
+  }
+}
+
+.train-crossing-locomotive {
+  animation: train-crossing-travel 2.8s linear infinite;
+}
+
+@keyframes crossing-lantern-flash-a {
+  0%, 49% {
+    background-color: #DC2626;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.85);
+  }
+  50%, 100% {
+    background-color: #381216;
+    box-shadow: none;
+  }
+}
+
+@keyframes crossing-lantern-flash-b {
+  0%, 49% {
+    background-color: #381216;
+    box-shadow: none;
+  }
+  50%, 100% {
+    background-color: #DC2626;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.85);
+  }
+}
+
+.train-crossing-light-left {
+  animation: crossing-lantern-flash-a 0.9s steps(1) infinite;
+}
+
+.train-crossing-light-right {
+  animation: crossing-lantern-flash-b 0.9s steps(1) infinite;
+}
+
+/* ========================================================
+   PREFERS-REDUCED-MOTION GLOBAL ENFORCEMENT
+   ======================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .steam-puff-1,
+  .steam-puff-2,
+  .steam-puff-3,
+  .animate-gear,
+  .animate-station-pulse,
+  .train-crossing-locomotive,
+  .train-crossing-light-left,
+  .train-crossing-light-right,
+  .split-flap-flip-top,
+  .split-flap-flip-bottom,
+  .animate-pulse,
+  .animate-spin,
+  .animate-ping,
+  .animate-bounce {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .train-crossing-locomotive {
+    transform: translate(-50%, -50%) !important;
+    left: 50% !important;
+  }
+
+  .custom-train-marker {
+    transition: none !important;
+  }
+}
